@@ -1,5 +1,6 @@
 used_models:
-  - name: LogisticRegression()
+  - name: LogisticRegression
     about: 'Logistic regression'
-  - name: SVD()
-    about: 'SVD'
+  - name: RandomForestClassifier
+    about: 'Random forest classifier'
+

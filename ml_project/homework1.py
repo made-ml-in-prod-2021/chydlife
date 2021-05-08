@@ -2,52 +2,60 @@ import pandas as pd
 import numpy as np
 import scipy.stats as stats
 import matplotlib.pyplot as plt
-import seaborn as sns
 import logging
+import sys
+import yaml
+import click
+import warnings
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LogisticRegression
-from utils import read_process_data, score, predict_model
-
+from data.read_and_process import read_process_data, split_train_val_data
+from model.models_and_prediction import validation, build_model, prediction
+from dataclasses import dataclass
+warnings.filterwarnings("ignore")
+TRAIN_FILE = "heart.csv"
+TEST_FILE_FOR_PREDICTION = "x_test.csv"
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
 logger.setLevel(logging.INFO)
 logger.addHandler(handler)
 
-def pipeline(input_data_path):
-    logger.info(f"start train pipeline with params {training_pipeline_params}")
-    heart_data = read_process_data(input_data_path)
-    logger.info(f"data.shape is {data.shape}")
-    train_df, val_df = split_train_val_data(
-        data, training_pipeline_params.splitting_params
-    )
-    logger.info(f"train_df.shape is {train_df.shape}")
-    logger.info(f"val_df.shape is {val_df.shape}")
-    x = heart_data.drop('target',axis=1)
-    y = heart_data.target
-    x_train , x_test , y_train , y_test = train_test_split( x , y , test_size=0.2 , random_state = 42 , stratify = y)
+@dataclass
+class Model:
+    name: str
+    about: str
 
+def pipeline(input_data_path, config_path, result_path):
+    heart_data = read_process_data(input_data_path + "/" + TRAIN_FILE)
+    x_train, x_val, y_train, y_val = split_train_val_data(heart_data)
+    logger.info(f"Train data.shape is {x_train.shape}")
+    logger.info(f"Test data.shape is {x_val.shape}")
+    logger.info("Calculating model...")
+    with open(config_path) as file:
+        documents = yaml.full_load(file)
+    logger.info(f"Loading config from '{config_path}'")   
+    count = 0
+    for model in documents['used_models']:
 
-    #transformer = build_transformer(training_pipeline_params.feature_params)
-    #transformer.fit(train_df)
-    #train_features = make_features(transformer, train_df)
-    #train_target = extract_target(train_df, training_pipeline_params.feature_params)
+        model_data = Model(model['name'], model['about'])
+        model_current = build_model(model_data.name, x_train, y_train)
+        logger.info(f"Calculating score results...")
+        validation(model_current, model_data.about, x_train, x_val, y_train, y_val)
+        prediction(model_current, result_path, model_data.about, input_data_path + "/" + TEST_FILE_FOR_PREDICTION)
+        
 
-    logger.info(f"train_features.shape is {train_features.shape}")
-
-    return np.mean(val_loss), np.mean(real_val_loss)
-
-def predict():
-
-
-    return predictions
-
-def train():
+@click.command(name="pipeline")
+@click.argument("data_path", default='data')
+@click.argument('config_path', default = 'config/config.yml')
+@click.argument('result_path', default = 'results')
+def train_pipeline_command(data_path: str, config_path: str, result_path: str):
+    pipeline(data_path, config_path, result_path)
 
 
 if __name__ == "__main__":
-    pipeline('')
+    train_pipeline_command()
