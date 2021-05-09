@@ -47,12 +47,13 @@ def pipeline(input_data_path, config_path, result_path):
         logger.info(f"Calculating score results...")
         validation(model_current, model_data.about, x_train, x_val, y_train, y_val)
         prediction(model_current, result_path, model_data.about, input_data_path + "/" + TEST_FILE_FOR_PREDICTION)
+        return validation(model_current, model_data.about, x_train, x_val, y_train, y_val)
         
 
 @click.command(name="pipeline")
-@click.argument("data_path", default='data')
-@click.argument('config_path', default = 'config/config.yml')
-@click.argument('result_path', default = 'results')
+@click.argument("data_path", default='ml_project/data')
+@click.argument('config_path', default = 'ml_project/config/config.yml')
+@click.argument('result_path', default = 'ml_project/results')
 def train_pipeline_command(data_path: str, config_path: str, result_path: str):
     pipeline(data_path, config_path, result_path)
 

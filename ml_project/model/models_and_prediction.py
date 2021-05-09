@@ -25,7 +25,7 @@ logger.addHandler(handler)
 def build_model(model, x_train, y_train):
     logger.info(f'Current model name: {model}')
     if model == "LogisticRegression":
-        current_model = LogisticRegression()
+        current_model = LogisticRegression(solver='liblinear')
     elif model == "RandomForestClassifier":
         current_model = RandomForestClassifier()
     else:
@@ -56,6 +56,6 @@ def validation(model, description, x_train, x_test, y_train, y_test):
 def prediction(model_current, result_path, model_name, path_x_test):
     x_test = pd.read_csv(path_x_test)
     result = model_current.predict(x_test)
-    with open(result_path + " "+ model_name, 'w') as out_file:
+    with open(result_path + "/"+ model_name, 'w') as out_file:
         out_file.write(str(result))
     logger.info(f'Prediction file has been created for {model_name} model')
