@@ -1,15 +1,13 @@
 Installation:
 
-python -m venv .venv
-source .venv/bin/activate
+For virtual env create new env and activate requirements using:
 pip install -r requirements.txt
 
 
 Usage:
 
-python ml_example/pipeline.py configs/train_config.yaml
-
+python ml_project/homework1.py
 
 Test:
 
-pytest tests/
+pytest ml_project/test.py
