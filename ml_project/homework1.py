@@ -39,15 +39,13 @@ def pipeline(input_data_path, config_path, result_path):
     with open(config_path) as file:
         documents = yaml.full_load(file)
     logger.info(f"Loading config from '{config_path}'")   
-    count = 0
     for model in documents['used_models']:
-
         model_data = Model(model['name'], model['about'])
         model_current = build_model(model_data.name, x_train, y_train)
         logger.info(f"Calculating score results...")
         validation(model_current, model_data.about, x_train, x_val, y_train, y_val)
         prediction(model_current, result_path, model_data.about, input_data_path + "/" + TEST_FILE_FOR_PREDICTION)
-        return validation(model_current, model_data.about, x_train, x_val, y_train, y_val)
+    return validation(model_current, model_data.about, x_train, x_val, y_train, y_val)
         
 
 @click.command(name="pipeline")
