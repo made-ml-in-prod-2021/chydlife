@@ -1,7 +1,6 @@
 Installation:
 
-python -m venv .venv
-source .venv/bin/activate
+For virtual env create new env and upload requirements from requirements.txt, activate env:
 pip install -r requirements.txt
 
 
