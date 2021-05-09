@@ -1,6 +1,7 @@
 Installation:
 
-For virtual env create new env and upload requirements from requirements.txt, activate env:
+For virtual env create new env and activate requirements using:
+pip install -r requirements.txt
 
 
 Usage:
