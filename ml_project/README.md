@@ -7,9 +7,8 @@ pip install -r requirements.txt
 
 Usage:
 
-python ml_example/pipeline.py configs/train_config.yaml
-
+python ml_project/homework1.py
 
 Test:
 
-pytest tests/
+pytest ml_project/test.py
