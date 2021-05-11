@@ -1,0 +1,6 @@
+used_models:
+  - name: LogisticRegression
+    about: 'Logistic regression'
+  - name: RandomForestClassifier
+    about: 'Random forest classifier'
+
