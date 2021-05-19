@@ -5,7 +5,7 @@ REQUEST_ADD = "http://127.0.0.1:8000/predict/"
 
 
 if __name__ == "__main__":
-    data = pd.read_csv("x_test.csv")
+    data = pd.read_csv("data/x_test.csv")
     request_features = list(data.columns)
     for i in range(data.shape[0]):
         request_data = [

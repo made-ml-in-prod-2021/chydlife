@@ -2,7 +2,7 @@ FROM python:3.6
 COPY requirements.txt ./requirements.txt
 RUN pip install -r requirements.txt
 
-COPY model.pkl /model.pkl
+COPY model/model.pkl ./model/model.pkl
 COPY app.py /app.py
 
 WORKDIR .
