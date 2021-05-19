@@ -37,3 +37,9 @@ docker pull chydlife/online_inference:v2
 ```bash
 docker run -p 8000:8000 -t online_inference/chydlife/online_inference:v2
 ```
+
+
+## Запуск теста
+```bash
+pytest app_test.py
+```

@@ -2,10 +2,11 @@ import numpy as np
 import pandas as pd
 import requests
 REQUEST_ADD = "http://127.0.0.1:8000/predict/"
+PATH_TO_DATA = "data/x_test.csv"
 
 
 if __name__ == "__main__":
-    data = pd.read_csv("data/x_test.csv")
+    data = pd.read_csv(PATH_TO_DATA)
     request_features = list(data.columns)
     for i in range(data.shape[0]):
         request_data = [

@@ -8,7 +8,6 @@ import pandas as pd
 import uvicorn
 from fastapi import FastAPI
 from pydantic import BaseModel, conlist
-#from sklearn.ensemble import RandomForestRegressor
 from sklearn.pipeline import Pipeline
 PATH_TO_MODEL = "model/model.pkl"
 
@@ -18,21 +17,20 @@ logger.setLevel(logging.INFO)
 logger.addHandler(handler)
 
 
-def load_object(path: str) -> Pipeline:
-    logger.info("Uploading file ...")
-    with open(path, "rb") as f:
-        return pickle.load(f)
-
-
 class ClassRequest(BaseModel):
+    
     data: List[conlist(Union[float, int])]
     features: List[str]
 
 class ClassResponse(BaseModel):
-    #id: str
+
     cls_id: int
 
-#model: Optional[Pipeline] = None
+
+def load_object(path: str) -> Pipeline:
+    logger.info("Uploading file ...")
+    with open(path, "rb") as f:
+        return pickle.load(f)
 
 
 def make_predict(
