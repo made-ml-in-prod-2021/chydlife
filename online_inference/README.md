@@ -31,3 +31,8 @@ docker push chydlife/online_inference:v2
 ```bash
 docker pull chydlife/online_inference:v2
 ```
+
+Затем докер можно запустить с помощью команды 
+```bash
+docker run -p 8000:8000 -t online_inference/chydlife/online_inference:v2
+```
