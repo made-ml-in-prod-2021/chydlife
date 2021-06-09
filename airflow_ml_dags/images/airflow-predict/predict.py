@@ -13,7 +13,7 @@ def predict(input_dir: str, model_path: str,output_dir):
     file = open(os.path.join(model_path, 'model.pkl'), 'rb') 
     model = pickle.load(file)
     data.drop('target', axis=1, inplace=True)
-    result = model.predict(data)
+    result = pd.DataFrame(model.predict(data))
     os.makedirs(output_dir, exist_ok=True)
     result.to_csv(os.path.join(output_dir, "predictions.csv"),index=False)
 if __name__ == '__main__':

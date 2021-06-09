@@ -15,7 +15,7 @@ default_args = {
 }
 
 with DAG(
-        "make-pred",
+        "11_docker",
         default_args=default_args,
         schedule_interval="@daily",
         start_date=days_ago(5),
@@ -23,7 +23,7 @@ with DAG(
 
     predict = DockerOperator(
         image="airflow-predict",
-        command=f"--input-dir /data/processed/{{ ds }} --output-dir /data/predictions{{ ds }} --model_path {Variable.get('MODEL_PATH')}",
+        command="--input-dir /data/processed/{{ ds }} --output-dir /data/predictions/{{ ds }} --model_path /data/models/{{ ds }}",
         task_id="docker-airflow-predict",
         do_xcom_push=False,
         volumes=[DATA_PATH]
