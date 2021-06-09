@@ -15,7 +15,7 @@ default_args = {
 }
 
 with DAG(
-        "11_docker",
+        "predict_dag",
         default_args=default_args,
         schedule_interval="@daily",
         start_date=days_ago(5),
