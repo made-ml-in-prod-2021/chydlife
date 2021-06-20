@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import uvicorn
 import time
+import datetime
 from fastapi import FastAPI
 from pydantic import BaseModel, conlist
 from sklearn.pipeline import Pipeline
@@ -16,6 +17,8 @@ logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
 logger.setLevel(logging.INFO)
 logger.addHandler(handler)
+start = datetime.datetime.now()
+logger.info("Start time now")
 
 
 class ClassRequest(BaseModel):
@@ -63,13 +66,15 @@ def load_model():
         err = f"PATH_TO_MODEL {model_path} is None"
         logger.error(err)
         raise RuntimeError(err)
-
     model = load_object(model_path)
-    #time.sleep(60)
-    #raise OSError("Application stop")
+
 
 @app.get("/healz")
 def health() -> bool:
+    stop = datetime.datetime.now()
+    elapsed = stop - start
+    if elapsed > datetime.timedelta(seconds=90):
+        raise OSError("Application stop")
     return not (model is None)
 
 
@@ -79,4 +84,6 @@ def predict(request: ClassRequest):
 
 
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="127.0.0.1", port=os.getenv("PORT", 8000))
+    uvicorn.run("app:app", host="0.0.0.0", port=os.getenv("PORT", 8000))
+
+    
