@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: online-inference-health-check
+  labels:
+    app: online-inference-health-check
+spec:
+  containers:
+    - image: chydlife/online_inference2:v1
+      name: online-inference-health-check
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 8000
+      livenessProbe:
+        httpGet:
+          path: /healz
+          port: 8000
+        initialDelaySeconds: 35
+        periodSeconds: 15
+      readinessProbe:
+        httpGet:
+          path: /healz
+          port: 8000
+        initialDelaySeconds: 35
+        periodSeconds: 15
